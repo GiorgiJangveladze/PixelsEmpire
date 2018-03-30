@@ -22,7 +22,6 @@ class CreateUsersTable extends Migration
                 $table->integer('country_id')->unsigned();
                 $table->string('password');
                 
-                $table->unique('country_id');
                 $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade')->onUpdate('cascade');
 
                 $table->rememberToken();
