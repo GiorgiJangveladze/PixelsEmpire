@@ -17,4 +17,5 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+//index page
+Route::get('/home', ['uses' => 'FrontControllers\HomeController@index','as' => 'home']);
