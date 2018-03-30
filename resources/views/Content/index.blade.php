@@ -21,7 +21,7 @@
 			</div>
 			
 			<div class="col-md-4 about-size">
-				<a href="#">
+				<a href="{{route('register', 1)}}">
 				<div class="shadow">
 					<img src="./images/georgia.jpeg" alt="image">
 				</div>

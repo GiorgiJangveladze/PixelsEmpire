@@ -1,8 +1,8 @@
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
+<script src="{{asset('js/jquery.min.js')}}"></script>
+<script src="{{asset('js/bootstrap.min.js')}}"></script>
 <!-- Start-Smooth-Scrolling -->
-<script type="text/javascript" src="js/move-top.js"></script>
-<script type="text/javascript" src="js/easing.js"></script>
+<script type="text/javascript" src="{{asset('js/move-top.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/easing.js')}}"></script>
     <script type="text/javascript">
         jQuery(document).ready(function($) {
             $(".scroll").click(function(event){     
@@ -12,5 +12,5 @@
         });
     </script>
 <!-- //End-Smooth-Scrolling -->
-<script src="js/easyResponsiveTabs.js"></script>
+<script src="{{asset('js/easyResponsiveTabs.js')}}"></script>
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
