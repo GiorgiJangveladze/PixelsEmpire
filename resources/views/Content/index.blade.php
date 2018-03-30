@@ -3,7 +3,7 @@
 @section('content')
 	<div class="about" id="about">	
 	<div class="container">
-	  
+	  	
 		<h3>Choose Your <span>COUNTRY</span> </h3>
 		<h4>This is the Game of Lorem Ipsum available, but the majority have suffered alteration in some form, 
 			by injected humour, or randomised words which don't look even slightly believable. 
@@ -21,9 +21,11 @@
 			</div>
 			
 			<div class="col-md-4 about-size">
+				<a href="#">
 				<div class="shadow">
 					<img src="./images/georgia.jpeg" alt="image">
 				</div>
+				</a>
 				<h5>georgia</h5>
 				
 			

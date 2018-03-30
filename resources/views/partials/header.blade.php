@@ -19,12 +19,34 @@
 					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 						
 						<ul class="nav navbar-nav navbar-right">
-							<li><a href="#home" class="active scroll">Home</a></li>
+							<li><a href="{{ route('home')}}">Home</a></li>
 							<li><a href="#about" class="scroll">About</a></li>
 							<li><a href="#requirements" class="scroll">Requirements</a></li>
 							<li><a href="#games" class="scroll">Games</a></li>
-							<li><a href="#ourteam" class="scroll">Team</a></li>
-							<li><a href="#contact" class="scroll">Contact</a></li>
+							@guest
+							<li><a href="{{route('login')}}">Login</a></li>
+							<li><a href="{{route('register',['id' => 1])}}">Register</a></li>
+							@else
+								<li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
+                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                </a>
+
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                            Logout
+                                        </a>
+
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+							@endguest
 						</ul>
 						
 					</div><!-- navbar-collapse -->
