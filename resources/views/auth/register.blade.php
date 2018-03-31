@@ -12,7 +12,7 @@
             <div class="about-image row">
                 <!-- nazi -->
                 <div class="col-md-4 margin-center about-size">
-                    <div class="shadow choosed" style="background: url('/images/nazi.jpg')"></div>
+                    <div class="shadow choosed" @if($id == 1) style="background: url('/images/nazi.jpg')" @elseif($id == 2) style="background: url('/images/ussr.jpg')" @endif ></div>
                     <h5>nazi</h5>
                 </div>
 
@@ -35,7 +35,7 @@
                     <div class="form-group col-7 margin-center he-i {{ $errors->has('name') ? ' has-error' : '' }} ">
                         <input type="text" class="form-control fc-dark" name="name" value="{{ old('name') }}" placeholder="Name">
                         @if ($errors->has('name'))
-                                    <span class="help-block">
+                                    <span class="help-block" style="color: red">
                                         <strong>{{ $errors->first('name') }}</strong>
                                     </span>
                                 @endif
@@ -43,7 +43,7 @@
                     <div class="form-group col-7 margin-center he-i {{ $errors->has('email') ? ' has-error' : '' }}">
                         <input type="email" class="form-control fc-dark" name="email" value="{{ old('email') }}" placeholder="Email">
                         @if ($errors->has('email'))
-                                    <span class="help-block">
+                                    <span class="help-block"  style="color: red">
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
                         @endif
@@ -51,7 +51,7 @@
                     <div class="form-group col-7 margin-center he-i {{ $errors->has('password') ? ' has-error' : '' }}">
                         <input type="password" class="form-control fc-dark" name="password" placeholder="Password">
                          @if ($errors->has('password'))
-                                    <span class="help-block">
+                                    <span class="help-block"  style="color: red">
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
                         @endif

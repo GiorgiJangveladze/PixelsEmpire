@@ -15,6 +15,17 @@
 					<li class="item">
 						<a href="#stalingrad">STALINGRAD</a>
 					</li>
+					@guest
+                            <li class="item"><a href="{{ route('login') }}">Login</a></li>
+                    @else
+                    <li class="item">
+						<a href="#">{{ Auth::user()->name }}</a>
+					</li>
+					<li class="item">
+						<a href="{{ route('logout') }}">LOGOUT</a>
+					</li>
+                       
+                    @endguest
 			</ul> 
 	</div>
 </div>
@@ -25,10 +36,19 @@
 			<div class="banner-content">
 				<h1>PIXELS EMPIRE</h1>
 				<h2>Modern combat Game Template	For Action Games </h2>
-				<div class="btn btn-success start-game">
-					<!-- login html es ar dagaviwydet -->
-					<p id='red' >START GAME</p>
-				</div>
+				 @guest
+					<div class="btn btn-success start-game">
+						<!-- login html es ar dagaviwydet -->
+						<p id='red' >START GAME</p>
+					</div>
+				@else
+				<a href="{{route('game')}}">
+					<div class="btn btn-success start-game">
+						<!-- login html es ar dagaviwydet -->
+						<p id='red' >Play GAME</p>
+					</div>
+				</a>
+				@endguest
 			</div>
 		</div>
 	</div>
