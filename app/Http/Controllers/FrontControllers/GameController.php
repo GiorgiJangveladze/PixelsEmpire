@@ -10,13 +10,8 @@ class GameController extends Controller
 {
     public function index()
     {
-        $coords = array_column(Coordinate::All()->toArray(), 'y_coordinates');
-
-        dd($coords);
-        foreach ($coords as $coord){
-            $data['coord'][] = $coord;
-        }
-        dd($data['coord']);
+        $data['coord'] = array_column(Coordinate::All()->toArray(), 'y_coordinates');
+        dd($data);
         return view('Content.game', $data);
     }
 }
