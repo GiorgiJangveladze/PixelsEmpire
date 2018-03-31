@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Country extends Model
+class Messages extends Model
 {
-    public $table = 'countries';
-    protected $fillable = ['name','color'];
+    public $table = 'messages';
+    protected $fillable = ['message','name'];
 
     public function getObj($id = null)
 	{
@@ -19,5 +19,4 @@ class Country extends Model
 			return $this->find($id);
 		}
 	}
-
 }

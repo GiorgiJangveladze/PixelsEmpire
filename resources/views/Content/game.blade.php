@@ -1,4 +1,54 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="{{asset('css/chat.css')}}"/>
+    <div class="o-m">
+        <i class="ion ion-android-textsms" id="jsf"></i>
+    </div>
+    <div class="container left-side" style="background: url('/images/chat.jpg')">
+        <div id="close">
+            <i class="ion ion-chevron-left" ></i>
+            <i class="ion ion-chevron-left" ></i>
+            <i class="ion ion-chevron-left" ></i>
+        </div>
+        <div class="people-list" id="people-list" style="overflow: scroll;">
+            <ul class="list">
+                @if($messages->isEmpty())
+                <li class="person">
+                    <div class="about row" id="enterMes">
+                        <p class="p-name col">Enter Message</p>
+                        <p class="status col-2">00:00</p>
+                        <p class="status col-12">Admin</p>
+                    </div>
+                </li>
+                @else
+               
+                    @foreach($messages as $message)
+                    <li class="person" id="{{$message->id}}">
+                        <div class="about row">
+                            <div id='all_message'>
+                                <p class="p-name col">{{$message->message}}</p>
+                                <p class="status col-2">{{$message->created_at}}</p>
+                            </div>
+                        </div>
+                    </li>
+                    @endforeach
+                
+                @endif
+
+            </ul>
+            <div class=" send">
+                <div class="row" style="margin:0">
+                    <textarea class="form-control  send-m col-10" name="message" id="message" placeholder="ჩაწერე ტექსტი..." id="exampleFormControlTextarea1"></textarea>
+                    <button type="submit" id="send" class="btn send-b btn-dark col-2">
+                        <i class="ion ion-paper-airplane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div> <!-- end container -->
+
+
 <canvas id="orthogonal-map" class="canvas-map" width="2000" height="2000"></canvas>
 
 {{--es unda amovshalot mere--}}
@@ -243,3 +293,4 @@
 
 </script>
 
+<script src="{{asset('js/chat.js')}}"></script>

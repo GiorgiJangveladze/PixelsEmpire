@@ -3,17 +3,21 @@
 namespace App\Http\Controllers\FrontControllers;
 
 use App\Models\Coordinate;
+use App\Models\Messages;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class GameController extends Controller
 {
-    public $coordinatel;
+    protected $coordinatel;
+    protected $message;
 
-    public function __construct()
+    public function __construct(Coordinate $cordinate,Messages $message)
     {
-        $this->coordinatel = new Coordinate();
+        $this->coordinatel = $cordinate;
+        $this->message = $message;
     }
+
     public function index()
     {
         $coords = array_column($this->coordinatel->get()->toArray(), 'y_coordinates');
@@ -21,6 +25,7 @@ class GameController extends Controller
         foreach ($coords as $coord){
             $data['coord'][] = unserialize($coord);
         }
+        $data['messages'] = $this->message->getObj();
         return view('Content.game', $data);
     }
 
@@ -49,5 +54,20 @@ class GameController extends Controller
 //            }
 //        }
     }
+
+    public function sendMessage(Request $request)
+    {
+        $this->message->create([
+            'message'=>$request->mess,
+            'user_id'=>auth()->user()->id
+        ]);
+
+    }
+
+    public function getMessage()
+    {
+        return $this->message->all();
+    }
+
 
 }
