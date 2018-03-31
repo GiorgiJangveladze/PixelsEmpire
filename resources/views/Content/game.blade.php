@@ -191,7 +191,7 @@
                     sessionStorage.setItem('wait', (1000 * 30));
                     mapData[x][y] = countryId;
                     colored(ctx, item);
-                    axios(mapData,countryId,x,y);
+                    axios(JSON.stringify(mapData),countryId,x,y);
                 }
                 else{
                     alert('you time is '+sessionStorage.getItem('wait')/1000)
