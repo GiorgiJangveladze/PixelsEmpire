@@ -1,0 +1,121 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700);
+
+body {
+
+  color: white;
+}
+
+.left-side {
+  margin: 0 auto;
+  width: 400px;
+  transition: all ease-in-out .6s;
+  transform: translateX(-100%);
+  background: #444753;
+  position:  fixed;
+  left: 0;
+  top:  0;
+  background-position: center !important;
+  background-size: cover !important;
+  padding: 0;
+}
+
+.people-list {background: rgba(52, 58, 64, .5);
+              height: 100vh;}
+
+.people-list ul::-webkit-scrollbar {
+    width: 1em;
+}
+ 
+.people-list ul::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px transparent;
+}
+ 
+.people-list ul::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  outline: 1px solid transparent;
+}
+.people-list ul {
+  padding:  50px 20px 20px 20px;
+  height: 100vh;
+  list-style:  none;
+  position:  static;
+  overflow-y: scroll;
+}
+.people-list ul li {margin: 16px 0;}
+
+.people-list .about {margin: 0px;}
+.people-list .about {
+}
+.people-list .status:nth-child(2) {
+  text-align: right;
+}
+.people-list .status {
+  color: #dae0e5;
+  padding: 0px;
+  margin: 0px;
+  font-size: 15px;
+  text-transform: capitalize;
+  font-style: italic;
+  font-weight: 100;
+}
+
+.p-name {
+    margin: 0px;
+    padding: 0px;
+    font-size: 20px;
+}
+
+.send {
+    height: 73px;
+    background: #fff;
+    position:  absolute;
+    left:  0;
+    bottom: 0px;
+    width: 100%;
+}
+
+
+.send-m textarea {
+    height: 100%;
+}
+
+.send-m:focus {
+    border-color: transparent;
+    outline: 0;
+    box-shadow: none !important;
+}
+
+.send form {
+    margin:  0px;
+}
+
+.send-b {
+    font-size: 38px;
+    border-radius: 0;
+}
+.o-m {
+    position: fixed;
+    top: 15px;
+    left:  15px;
+    height:  50px;
+    width: 50px;
+    z-index: 10;
+}
+
+.o-m .ion-android-textsms {
+    font-size: 60px;
+    color: rgba(0, 0, 0, .5);
+    cursor:  pointer;
+}
+#close {
+    height:   50px;
+    width:   50px;
+    position:  absolute;
+    right: 0;
+    cursor: pointer;
+}
+
+#close .ion-chevron-left {
+    line-height: 50px;
+    font-size: 22px;
+}

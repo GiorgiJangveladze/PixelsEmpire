@@ -30,7 +30,6 @@
 	</div>
 </div>
 </header>
-
 		<div class="banner" id="home">
 		<div class="container">
 			<div class="banner-content">
@@ -45,7 +44,7 @@
 				<a href="{{route('game')}}">
 					<div class="btn btn-success start-game">
 						<!-- login html es ar dagaviwydet -->
-						<p id='red' >Play GAME</p>
+						<p id='red' >START GAME</p>
 					</div>
 				</a>
 				@endguest
