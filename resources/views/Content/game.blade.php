@@ -143,7 +143,7 @@
             dataType: "json",
             success:function(data){
                 // mapData = data;
-                
+
 
 
                     // Init orthogonal map
