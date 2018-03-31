@@ -45,8 +45,23 @@
         </div>
     </div> <!-- end container -->
 
-
+<img id="map" width="220" height="277" src="{{asset('images/map.png')}}" alt="The Scream" style="display: none;">
+<img id="nazi_flag" width="20" height="20" src="{{asset('images/nazi_flag.jpeg')}}" alt="The Scream" style="display: none;">
+<audio id="audio" src="{{asset('images/gun.mp3')}}" controls style="display: none;"></audio>
 <canvas id="orthogonal-map" class="canvas-map" width="2000" height="2000"></canvas>
+
+{{--es unda amovshalot mere--}}
+<script src="{{asset('js/jquery.min.js')}}"></script>
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+</script>
+{{--aqamde--}}
+
+
 
 {{--es unda amovshalot mere--}}
 <script src="{{asset('js/jquery.min.js')}}"></script>
@@ -62,17 +77,23 @@
 <script>
     // Possible tile types
     const TILE_TYPES = {
-        0: {name: 'Land', color: ' #994d00' },
-        1: {name: 'Land', color: '#ff3333' },
-        2: {name: 'Reaver', color: 'lightblue' },
-        3: {name: 'Land', color: ' #f2f2f2' },
+        1: {name: 'Land', color: ' #994d00' },
+        2: {name: 'Land', color: '#ff3333' },
+        3: {name: 'Reaver', color: 'lightblue' },
+        0: {name: 'Land', color: ' #f2f2f2' },
     };
+
+    //pixel size
     const sizeOfDiv = 20;
 
     // Map tile data
-
     const countryID = {{ \Illuminate\Support\Facades\Auth::user()->country_id }}
     var mapData = {{ json_encode($coord) }};
+
+    var elem = document.getElementById('orthogonal-map'),
+        elemLeft = elem.offsetLeft,
+        elemTop = elem.offsetTop,
+        ctx = elem.getContext('2d');
 
 
     class Tile {
@@ -91,7 +112,8 @@
             //   console.log(xPos, yPos)
 
             // Draw tile
-            this.ctx.fillStyle = this.type.color
+            this.ctx.globalAlpha=0.3;
+            this.ctx.fillStyle = this.type.color;
             this.ctx.fillRect(xPos, yPos, this.size, this.size)
         }
     }
@@ -155,31 +177,25 @@
 
         drawGridTile (x, y) {
             // Store positions
-            const xPos = x * this.tileSize
-            const yPos = y * this.tileSize
-
-            // Draw coordinate text
-            this.ctx.font = '1px serif'
-            this.ctx.textAlign= 'center'
-            this.ctx.fillStyle = '#333'
-            this.ctx.fillText(x + ', ' + y, xPos + this.tileSize / 2, yPos + this.tileSize / 2 + 5)
+            const xPos = x * this.tileSize;
+            const yPos = y * this.tileSize;
 
             // Draw grid
-            this.ctx.strokeStyle = '#999'
-            this.ctx.lineWidth = 0.5
-            this.ctx.strokeRect(xPos, yPos, this.tileSize, this.tileSize)
+            this.ctx.strokeStyle = '#000000';
+            this.ctx.lineWidth = 1;
+            this.ctx.strokeRect(xPos, yPos, this.tileSize, this.tileSize);
         }
     }
 
     let map;
 
-    // Init canvas tile map on document ready
+    window.onload = function() {
+        let img = document.getElementById("map");
+        ctx.drawImage(img, 0, 0, 1400, 1440);
+    };
+
     document.addEventListener('DOMContentLoaded', function () {
-
-        // Init orthogonal map
-        map = new OrthogonalMap('orthogonal-map', mapData, { tileSize: sizeOfDiv })
-
-        // Bind click event to show grid checkbox toggle
+        map = new OrthogonalMap('orthogonal-map', mapData, { tileSize: sizeOfDiv });
     });
 
     setInterval(function () {
@@ -189,17 +205,11 @@
             data: { map: JSON.stringify(mapData) },
             dataType: "json",
             success:function(data){
-                // mapData = data;
-
-
-
-                    // Init orthogonal map
-                    map = new OrthogonalMap('orthogonal-map', data, { tileSize: sizeOfDiv })
-
-
+                map = new OrthogonalMap('orthogonal-map', data, { tileSize: sizeOfDiv });
+                // drawInitialLine(ctx,data);
             }
         });
-    },3000);
+    },1000*300);
 
     /**
      Tile class
@@ -209,21 +219,17 @@
     let itemsArray = [];
 
     mapData.map((yitem, ykey)=>{
-            yitem.map((xitem, xkey)=>{
+        yitem.map((xitem, xkey)=>{
             itemsArray.push({x:xkey*sizeOfDiv, y:ykey*sizeOfDiv})
         });
     });
 
-    var elem = document.getElementById('orthogonal-map'),
-        elemLeft = elem.offsetLeft,
-        elemTop = elem.offsetTop;
-        ctx = elem.getContext('2d');
-
-
-
     elem.addEventListener('click', function(event) {
         var x = event.pageX - elemLeft,
             y = event.pageY - elemTop;
+
+        var storedLines=[];
+
 
         itemsArray.map((item)=>{
             let Xsxvaoba = x-item.x;
@@ -232,7 +238,9 @@
             if((Xsxvaoba<sizeOfDiv && Xsxvaoba>0) && (Ysxvaoba<sizeOfDiv && Ysxvaoba>0)){
                 if(item.x+Xsxvaoba===x && item.y+Ysxvaoba===y){
                     let pixel = mapData[item.y / sizeOfDiv][item.x / sizeOfDiv];
-                    checkPixels(item.y / sizeOfDiv,item.x / sizeOfDiv, pixel, countryID, mapData, ctx,item);
+                    checkPixels(item.y / sizeOfDiv, item.x / sizeOfDiv, pixel, countryID, mapData, ctx,item);
+
+                    // drawInitialLine(ctx);
                     return 0;
                 }
             }
@@ -240,7 +248,7 @@
     }, false);
 
     function checkPixels(x, y, currentPixel, countryId, map,ctx,item){
-        if(currentPixel!==2 && currentPixel!==3 && currentPixel!==countryId){
+        if(currentPixel!==0 && currentPixel!==3 && currentPixel!==countryId){
             if( map[x-1][y]===countryId ||
                 map[x+1][y]===countryId ||
                 map[x][y-1]===countryId ||
@@ -252,8 +260,18 @@
                 if(sessionStorage.getItem('wait')==null || sessionStorage.getItem('wait')<1000) {
                     sessionStorage.setItem('wait', (1000 * 5));
                     mapData[x][y] = countryId;
-                    colored(ctx, item);
-                    // JSON.stringify(mapData),
+                    //image upload
+                    let img = document.getElementById("nazi_flag");
+                    ctx.drawImage(img, item.x, item.y, 20, 20);
+
+                    let audioMusic = document.getElementById('audio').src;
+                    let audio = new Audio(audioMusic);
+                    audio.play();
+                    //hide
+                    setTimeout(function(){
+                        colored(ctx, item);
+                    },3000);
+
                     axios(countryId,x,y);
                 }
                 else{
@@ -268,6 +286,8 @@
     }
 
     function colored(ctx, item){
+        ctx.clearRect(item.x, item.y, sizeOfDiv, sizeOfDiv);
+        ctx.globalAlpha=0.3;
         ctx.fillStyle =TILE_TYPES[countryID].color;
         ctx.fillRect(item.x, item.y, sizeOfDiv, sizeOfDiv);
     }
@@ -280,6 +300,37 @@
             dataType: "json"
         });
     }
+
+    // function drawInitialLine(ctx) {
+    //     let color = '';
+    //     for(let i = 1; i < mapData.length;i++) {
+    //         for(let j = 1; j < mapData[i].length-1; j++) {
+    //             if(mapData[i][j] === 1) {
+    //                 color = 'black';
+    //             }
+    //             if(mapData[i][j] === 2) {
+    //                 color = 'black'
+    //             }
+    //
+    //             if (mapData[i - 1][j] != mapData[i][j]) {
+    //                 ctx.beginPath();
+    //                 ctx.strokeStyle = color;
+    //                 ctx.lineWidth = 1;
+    //                 ctx.moveTo(j * sizeOfDiv, i * sizeOfDiv);
+    //                 ctx.lineTo(j * sizeOfDiv + sizeOfDiv, i * sizeOfDiv);
+    //                 ctx.stroke();
+    //             }
+    //             if (mapData[i][j + 1] != mapData[i][j]) {
+    //                 ctx.beginPath();
+    //                 ctx.strokeStyle = color;
+    //                 ctx.lineWidth = 1;
+    //                 ctx.moveTo(j * sizeOfDiv + sizeOfDiv, i * sizeOfDiv);
+    //                 ctx.lineTo(j * sizeOfDiv + sizeOfDiv, i * sizeOfDiv + sizeOfDiv);
+    //                 ctx.stroke();
+    //             }
+    //         }
+    //     }
+    // }
 
     setInterval(function () {
         let oldWaitTime = sessionStorage.getItem('wait');
