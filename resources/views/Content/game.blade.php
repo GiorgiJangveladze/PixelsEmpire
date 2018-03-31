@@ -20,18 +20,14 @@
         2: {name: 'Reaver', color: 'lightblue' },
         3: {name: 'Land', color: ' #f2f2f2' },
     };
-
+    const sizeOfDiv = 20;
 
     // Map tile data
-    const mapData = {{ json_encode($coord) }};
+
     const countryID = {{ \Illuminate\Support\Facades\Auth::user()->country_id }}
-    console.log(mapData);
-    console.log(countryID);
-    console.log();
-    const sizeOfDiv = 20;
-    /**
-     Tile class
-     */
+    var mapData = {{ json_encode($coord) }};
+
+
     class Tile {
 
         constructor (size, type, ctx) {
@@ -71,13 +67,6 @@
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         }
 
-        toggleGrid () {
-            // Toggle show grid option
-            this.showGrid = !this.showGrid
-
-            // Redraw map
-            this.draw()
-        }
     }
 
     /**
@@ -86,7 +75,7 @@
     class OrthogonalMap extends Map {
 
         constructor (selector, data, opts) {
-            super(selector, data, opts)
+            super(selector, data, opts);
             this.draw()
         }
 
@@ -135,14 +124,40 @@
         }
     }
 
+    let map;
+
     // Init canvas tile map on document ready
     document.addEventListener('DOMContentLoaded', function () {
 
         // Init orthogonal map
-        const map = new OrthogonalMap('orthogonal-map', mapData, { tileSize: sizeOfDiv })
+        map = new OrthogonalMap('orthogonal-map', mapData, { tileSize: sizeOfDiv })
 
         // Bind click event to show grid checkbox toggle
-    })
+    });
+
+    setInterval(function () {
+        $.ajax({
+            type: "POST",
+            url: "/update_map_online",
+            data: { map: JSON.stringify(mapData) },
+            dataType: "json",
+            success:function(data){
+                // mapData = data;
+                
+
+
+                    // Init orthogonal map
+                    map = new OrthogonalMap('orthogonal-map', data, { tileSize: sizeOfDiv })
+
+
+            }
+        });
+    },3000);
+
+    /**
+     Tile class
+     */
+
 
     let itemsArray = [];
 
@@ -188,10 +203,11 @@
                 map[x+1][y-1]===countryId ||
                 map[x+1][y+1]===countryId){
                 if(sessionStorage.getItem('wait')==null || sessionStorage.getItem('wait')<1000) {
-                    sessionStorage.setItem('wait', (1000 * 30));
+                    sessionStorage.setItem('wait', (1000 * 5));
                     mapData[x][y] = countryId;
                     colored(ctx, item);
-                    axios(JSON.stringify(mapData),countryId,x,y);
+                    // JSON.stringify(mapData),
+                    axios(countryId,x,y);
                 }
                 else{
                     alert('you time is '+sessionStorage.getItem('wait')/1000)
@@ -209,17 +225,13 @@
         ctx.fillRect(item.x, item.y, sizeOfDiv, sizeOfDiv);
     }
 
-    function axios(map, countryID,x,y){
+    function axios(countryID,x,y){
         $.ajax({
             type: "POST",
             url: "/update_map",
-            data: {map: map, countryID: countryID,x:x,y:y},
+            data: {countryID: countryID,x:x,y:y},
             dataType: "json"
         });
-        //
-        // $.post('/update_map', {oldMap:map, countryId:countryID, xCoord:x, yCoord:y}, function(response){
-        //     console.log(response);
-        // });
     }
 
     setInterval(function () {

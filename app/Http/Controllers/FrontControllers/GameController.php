@@ -8,9 +8,15 @@ use App\Http\Controllers\Controller;
 
 class GameController extends Controller
 {
+    public $coordinatel;
+
+    public function __construct()
+    {
+        $this->coordinatel = new Coordinate();
+    }
     public function index()
     {
-        $coords = array_column(Coordinate::All()->toArray(), 'y_coordinates');
+        $coords = array_column($this->coordinatel->get()->toArray(), 'y_coordinates');
 
         foreach ($coords as $coord){
             $data['coord'][] = unserialize($coord);
@@ -19,6 +25,29 @@ class GameController extends Controller
     }
 
     public function updateMap(Request $request){
-        return $request;
+        $mainCoordinate = $this->coordinatel->where('id',$request->x+1)->first();
+        $coordinateData = unserialize($mainCoordinate['y_coordinates']);
+        $coordinateData[$request->y] = (int)$request->countryID;
+        $mainCoordinate->y_coordinates = serialize($coordinateData);
+        $mainCoordinate->save();
+        return  $mainCoordinate[$request->y];
     }
+
+    public function updateMapOnline(Request $request){
+        $coords = array_column($this->coordinatel->get()->toArray(), 'y_coordinates');
+
+        foreach ($coords as $coord){
+            $data['coord'][] = unserialize($coord);
+        }
+        return $data['coord'];
+//        $data = $request->map;
+//        $mainCoordinate = $this->coordinatel->where('id',$request->x+1)->first();
+//        $coordinateData = unserialize($mainCoordinate['y_coordinates']);
+//        for($i=0; $i<count($data)-1; $i++){
+//            if(array_diff($coordinateData[$i], $data[$i])){
+//
+//            }
+//        }
+    }
+
 }
