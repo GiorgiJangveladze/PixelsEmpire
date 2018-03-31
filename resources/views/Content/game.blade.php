@@ -1,4 +1,4 @@
- <canvas id="orthogonal-map" class="canvas-map" width="2000" height="2000"></canvas>
+<canvas id="orthogonal-map" class="canvas-map" width="2000" height="2000"></canvas>
     <script>
         // Possible tile types
         const TILE_TYPES = {

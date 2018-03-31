@@ -13,9 +13,8 @@ class GameController extends Controller
         $coords = array_column(Coordinate::All()->toArray(), 'y_coordinates');
 
         foreach ($coords as $coord){
-            $data['coord'][] = $coord;
+            $data['coord'][] = unserialize($coord);
         }
-        dd($data['coord']);
         return view('Content.game', $data);
     }
 }
