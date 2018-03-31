@@ -88,7 +88,7 @@ class CordinateSeeder extends Seeder
 
         foreach ($array as $arr){
             \App\Models\Coordinate::create([
-                'y_coordinates'=>json_encode($arr)
+                'y_coordinates'=>serialize($arr)
             ]);
         }
     }
