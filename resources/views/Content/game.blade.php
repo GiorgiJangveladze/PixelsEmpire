@@ -9,7 +9,7 @@
         };
 
         // Map tile data
-        const mapData = {{$coord}}
+        const mapData = {{ json_encode($coord) }}
 
         console.log(mapData);
 
