@@ -17,12 +17,7 @@ class CreateCordinateTable extends Migration
         {
             Schema::create('cordinate', function (Blueprint $table) {
                 $table->increments('id');
-                $table->integer('country_id')->unsigned();
-                $table->string('x');
-                $table->string('y');
-                $table->unique('country_id');
-                $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade')->onUpdate('cascade');
-
+                $table->json('y_coordinates');
                 $table->timestamps();
             });
         }

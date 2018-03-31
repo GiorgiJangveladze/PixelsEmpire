@@ -19,3 +19,5 @@ Auth::routes();
 
 //index page
 Route::get('/home', ['uses' => 'FrontControllers\HomeController@index','as' => 'home']);
+
+Route::get('/game', 'FrontControllers\GameController@index');
