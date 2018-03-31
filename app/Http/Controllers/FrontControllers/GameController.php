@@ -8,6 +8,11 @@ use App\Http\Controllers\Controller;
 
 class GameController extends Controller
 {
+    public function __construct()
+    {
+        ini_set('max_input_vars','6000' );
+    }
+
     public function index()
     {
         $coords = array_column(Coordinate::All()->toArray(), 'y_coordinates');
@@ -16,5 +21,9 @@ class GameController extends Controller
             $data['coord'][] = unserialize($coord);
         }
         return view('Content.game', $data);
+    }
+
+    public function updateMap(Request $request){
+        return $request;
     }
 }

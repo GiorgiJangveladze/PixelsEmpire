@@ -4,6 +4,11 @@
 <script type="text/javascript" src="{{asset('js/move-top.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/easing.js')}}"></script>
     <script type="text/javascript">
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
         jQuery(document).ready(function($) {
             $(".scroll").click(function(event){     
                 event.preventDefault();

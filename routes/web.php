@@ -20,4 +20,7 @@ Auth::routes();
 //index page
 Route::get('/home', ['uses' => 'FrontControllers\HomeController@index','as' => 'home']);
 
-Route::get('/game', 'FrontControllers\GameController@index');
+Route::group(['middleware'=>'auth', 'namespace'=>'FrontControllers'], function(){
+    Route::get('/game', 'GameController@index');
+    Route::post('/update_map', 'GameController@updateMap');
+});
