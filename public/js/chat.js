@@ -41,7 +41,7 @@ function close_sidebar() {
 				$("#enterMes").remove();
 				$('#all_message').empty();
 				data.responseJSON.map(function(item){
-					$('#all_message').append("<p class='p-name col'>"+item.message+"</p><p class='status col-2'>"+item.created_at+"</p>");	
+					$('#all_message').append("<li class='person' id='"+ item.id+"'><div class='about row'>  <p class='p-name col'>"+item.message+"</p><p class='status col-2'>"+item.name+"</p></div></li>");	
 				});
 			}
 			

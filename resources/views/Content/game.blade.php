@@ -11,8 +11,8 @@
             <i class="ion ion-chevron-left" ></i>
             <i class="ion ion-chevron-left" ></i>
         </div>
-        <div class="people-list" id="people-list" style="overflow: scroll;">
-            <ul class="list">
+        <div class="people-list" id="people-list" ">
+            <ul class="list" id='all_message'>
                 @if($messages->isEmpty())
                 <li class="person">
                     <div class="about row" id="enterMes">
@@ -22,15 +22,12 @@
                     </div>
                 </li>
                 @else
-               
                     @foreach($messages as $message)
                     <li class="person" id="{{$message->id}}">
                         <div class="about row">
-                            <div id='all_message'>
                                 <p class="p-name col">{{$message->message}}</p>
-                                <p class="status col-2">{{$message->created_at}}</p>
+                                <p class="status col-2">{{$message->user_id}}</p>
                             </div>
-                        </div>
                     </li>
                     @endforeach
                 

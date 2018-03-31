@@ -59,7 +59,7 @@ class GameController extends Controller
     {
         $this->message->create([
             'message'=>$request->mess,
-            'user_id'=>auth()->user()->id
+            'name'=>auth()->user()->name
         ]);
 
     }
@@ -67,6 +67,7 @@ class GameController extends Controller
     public function getMessage()
     {
         return $this->message->all();
+
     }
 
 

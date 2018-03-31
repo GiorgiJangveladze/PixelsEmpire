@@ -30,7 +30,6 @@
 	</div>
 </div>
 </header>
-
 		<div class="banner" id="home">
 		<div class="container">
 			<div class="banner-content">
