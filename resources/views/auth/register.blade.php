@@ -2,77 +2,70 @@
 
 @section('content')
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Register</div>
 
-                <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('register',$id)}}">
-                        {{ csrf_field() }}
+<div class="about chose-about" id="empires" style="background: url('/images/back.jpg');">    
+        <!-- qveynebis konteineri -->
+        <div class="container">
+            <!-- header -->
+            <h3> Your <span>EMPIRE</span> </h3> 
+            <!-- choose your country -->
+            <div class="about-image row">
+                <!-- nazi -->
+                <div class="col-md-4 margin-center about-size">
+                    <div class="shadow choosed" @if($id == 1) style="background: url('/images/nazi.jpg')" @elseif($id == 2) style="background: url('/images/ussr.jpg')" @endif ></div>
+                    <h5>nazi</h5>
+                </div>
 
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Name</label>
+            </div>
+        </div> 
+    </div> 
+    <div class="d-flex align-items-center justify-content-center ">
+        <div class=" align-items-center justify-content-center col-12">
 
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+            <!-- form -->
+            <form method="POST" action="{{ route('register',$id)}}">
+                {{ csrf_field() }}
+                <div class="login-wrapper  pd-25 pd-xs-40 col-12 rounded ht-100v wall-my" style="background: url('/images/brick.jpg')">
+                    <div class="signin-logo tx-center tx-28 tx-bold tx-white col-6 margin-center">
+                        <div class="logo align-items-center row">
+                            <div class="game_logo reg-logo" style="background: url('/images/main_logo.png');"></div>
+                        </div>
+                    </div>
 
-                                @if ($errors->has('name'))
-                                    <span class="help-block">
+                    <div class="form-group col-7 margin-center he-i {{ $errors->has('name') ? ' has-error' : '' }} ">
+                        <input type="text" class="form-control fc-dark" name="name" value="{{ old('name') }}" placeholder="Name">
+                        @if ($errors->has('name'))
+                                    <span class="help-block" style="color: red">
                                         <strong>{{ $errors->first('name') }}</strong>
                                     </span>
                                 @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
+                    </div>
+                    <div class="form-group col-7 margin-center he-i {{ $errors->has('email') ? ' has-error' : '' }}">
+                        <input type="email" class="form-control fc-dark" name="email" value="{{ old('email') }}" placeholder="Email">
+                        @if ($errors->has('email'))
+                                    <span class="help-block"  style="color: red">
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
+                        @endif
+                    </div>
+                    <div class="form-group col-7 margin-center he-i {{ $errors->has('password') ? ' has-error' : '' }}">
+                        <input type="password" class="form-control fc-dark" name="password" placeholder="Password">
+                         @if ($errors->has('password'))
+                                    <span class="help-block"  style="color: red">
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
-                                @endif
-                            </div>
-                        </div>
+                        @endif
+                    </div>
+                    <div class="form-group col-7 margin-center he-i">
+                        <input type="password" name="password_confirmation" class="form-control fc-dark  " placeholder="Repeat Password">
+                    </div>
+                    <button type="submit" class="btn btn-dark btn-block log-in  margin-center col-3">Sign up</button>
 
-                        <div class="form-group">
-                            <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
 
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Register
-                                </button>
-                            </div>
-                        </div>
-                    </form>
                 </div>
-            </div>
+            </form>
+            <!-- form -->
+
         </div>
     </div>
-</div>
 @endsection
