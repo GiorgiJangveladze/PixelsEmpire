@@ -77,10 +77,10 @@
 <script>
     // Possible tile types
     const TILE_TYPES = {
-        1: {name: 'Land', color: ' #994d00' },
-        2: {name: 'Land', color: '#ff3333' },
+        1: {name: 'Land', color: '#0000FF' },
+        2: {name: 'Land', color: 'red' },
         3: {name: 'Reaver', color: 'lightblue' },
-        0: {name: 'Land', color: ' #f2f2f2' },
+        0: {name: 'Land', color: '#D3D3D3' },
     };
 
     //pixel size
@@ -112,7 +112,7 @@
             //   console.log(xPos, yPos)
 
             // Draw tile
-            this.ctx.globalAlpha=0.3;
+            this.ctx.globalAlpha=0.6;
             this.ctx.fillStyle = this.type.color;
             this.ctx.fillRect(xPos, yPos, this.size, this.size)
         }
@@ -196,6 +196,7 @@
 
     document.addEventListener('DOMContentLoaded', function () {
         map = new OrthogonalMap('orthogonal-map', mapData, { tileSize: sizeOfDiv });
+        drawInitialLine(ctx);
     });
 
     setInterval(function () {
@@ -206,7 +207,7 @@
             dataType: "json",
             success:function(data){
                 map = new OrthogonalMap('orthogonal-map', data, { tileSize: sizeOfDiv });
-                // drawInitialLine(ctx,data);
+                drawInitialLine(ctx);
             }
         });
     },1000*300);
@@ -227,10 +228,6 @@
     elem.addEventListener('click', function(event) {
         var x = event.pageX - elemLeft,
             y = event.pageY - elemTop;
-
-        var storedLines=[];
-
-
         itemsArray.map((item)=>{
             let Xsxvaoba = x-item.x;
             let Ysxvaoba = y-item.y;
@@ -240,7 +237,7 @@
                     let pixel = mapData[item.y / sizeOfDiv][item.x / sizeOfDiv];
                     checkPixels(item.y / sizeOfDiv, item.x / sizeOfDiv, pixel, countryID, mapData, ctx,item);
 
-                    // drawInitialLine(ctx);
+                    drawInitialLine(ctx);
                     return 0;
                 }
             }
@@ -286,7 +283,7 @@
     }
 
     function colored(ctx, item){
-        ctx.clearRect(item.x, item.y, sizeOfDiv, sizeOfDiv);
+        // ctx.clearRect(item.x, item.y, sizeOfDiv, sizeOfDiv);
         ctx.globalAlpha=0.3;
         ctx.fillStyle =TILE_TYPES[countryID].color;
         ctx.fillRect(item.x, item.y, sizeOfDiv, sizeOfDiv);
@@ -301,36 +298,32 @@
         });
     }
 
-    // function drawInitialLine(ctx) {
-    //     let color = '';
-    //     for(let i = 1; i < mapData.length;i++) {
-    //         for(let j = 1; j < mapData[i].length-1; j++) {
-    //             if(mapData[i][j] === 1) {
-    //                 color = 'black';
-    //             }
-    //             if(mapData[i][j] === 2) {
-    //                 color = 'black'
-    //             }
-    //
-    //             if (mapData[i - 1][j] != mapData[i][j]) {
-    //                 ctx.beginPath();
-    //                 ctx.strokeStyle = color;
-    //                 ctx.lineWidth = 1;
-    //                 ctx.moveTo(j * sizeOfDiv, i * sizeOfDiv);
-    //                 ctx.lineTo(j * sizeOfDiv + sizeOfDiv, i * sizeOfDiv);
-    //                 ctx.stroke();
-    //             }
-    //             if (mapData[i][j + 1] != mapData[i][j]) {
-    //                 ctx.beginPath();
-    //                 ctx.strokeStyle = color;
-    //                 ctx.lineWidth = 1;
-    //                 ctx.moveTo(j * sizeOfDiv + sizeOfDiv, i * sizeOfDiv);
-    //                 ctx.lineTo(j * sizeOfDiv + sizeOfDiv, i * sizeOfDiv + sizeOfDiv);
-    //                 ctx.stroke();
-    //             }
-    //         }
-    //     }
-    // }
+    function drawInitialLine(ctx) {
+        let color = '';
+        for(let i = 1; i < mapData.length;i++) {
+            for(let j = 1; j < mapData[i].length-1; j++) {
+
+                color = 'black';
+
+                if (mapData[i - 1][j] != mapData[i][j]) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = color;
+                    ctx.lineWidth = 10;
+                    ctx.moveTo(j * sizeOfDiv, i * sizeOfDiv);
+                    ctx.lineTo(j * sizeOfDiv + sizeOfDiv, i * sizeOfDiv);
+                    ctx.stroke();
+                }
+                if (mapData[i][j + 1] != mapData[i][j]) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = color;
+                    ctx.lineWidth = 10;
+                    ctx.moveTo(j * sizeOfDiv + sizeOfDiv, i * sizeOfDiv);
+                    ctx.lineTo(j * sizeOfDiv + sizeOfDiv, i * sizeOfDiv + sizeOfDiv);
+                    ctx.stroke();
+                }
+            }
+        }
+    }
 
     setInterval(function () {
         let oldWaitTime = sessionStorage.getItem('wait');
