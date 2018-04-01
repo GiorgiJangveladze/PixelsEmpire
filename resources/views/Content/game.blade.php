@@ -1,56 +1,59 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="{{asset('css/chat.css')}}"/>
-    <link rel="stylesheet" href="{{asset('css/style.css')}}"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
-    <div class="o-m">
-        <i class="ion ion-android-textsms" id="jsf"></i>
+
+<meta name="csrf-token" content="{{ csrf_token() }}">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+<link rel="stylesheet" href="{{asset('css/chat.css')}}"/>
+{{--<link rel="stylesheet" href="{{asset('css/style.css')}}"/>--}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+<div class="o-m">
+    <i class="ion ion-android-textsms" id="jsf"></i>
+</div>
+<div class="container left-side" style="background: url('/images/chat.jpg')">
+    <div id="close">
+        <i class="ion ion-chevron-left" ></i>
+        <i class="ion ion-chevron-left" ></i>
+        <i class="ion ion-chevron-left" ></i>
     </div>
-    <div class="container left-side" style="background: url('/images/chat.jpg')">
-        <div id="close">
-            <i class="ion ion-chevron-left" ></i>
-            <i class="ion ion-chevron-left" ></i>
-            <i class="ion ion-chevron-left" ></i>
-        </div>
-        <div class="people-list" id="people-list" ">
-            <ul class="list" id='all_message'>
-                @if($messages->isEmpty())
-                <li class="person">
-                    <div class="about row" id="enterMes">
-                        <p class="p-name col">Enter Message</p>
-                        <p class="status col-2">00:00</p>
-                        <p class="status col-12">Admin</p>
+    <div class="people-list" id="people-list" >
+    <ul class="list" id='all_message'>
+        @if($messages->isEmpty())
+            <li class="person">
+                <div class="about row" id="enterMes">
+                    <p class="p-name col">Enter Message</p>
+                    <p class="status col-2">00:00</p>
+                    <p class="status col-12">Admin</p>
+                </div>
+            </li>
+        @else
+            @foreach($messages as $message)
+                <li class="person" id="{{$message->id}}">
+                    <div class="about row">
+                        <p class="p-name col">{{$message->message}}</p>
+                        <p class="status col-2">{{$message->user_id}}</p>
                     </div>
                 </li>
-                @else
-                    @foreach($messages as $message)
-                    <li class="person" id="{{$message->id}}">
-                        <div class="about row">
-                                <p class="p-name col">{{$message->message}}</p>
-                                <p class="status col-2">{{$message->user_id}}</p>
-                            </div>
-                    </li>
-                    @endforeach
-                
-                @endif
+            @endforeach
 
-            </ul>
-            <div class=" send">
-                <div class="row" style="margin:0">
-                    <textarea class="form-control  send-m col-10" name="message" id="message" placeholder="ჩაწერე ტექსტი..." id="exampleFormControlTextarea1"></textarea>
-                    <button type="submit" id="send" class="btn send-b btn-dark col-2">
-                        <i class="ion ion-paper-airplane"></i>
-                    </button>
-                </div>
-            </div>
+        @endif
+
+    </ul>
+    <div class=" send">
+        <div class="row" style="margin:0">
+            <textarea class="form-control  send-m col-10" name="message" id="message" placeholder="ჩაწერე ტექსტი..." id="exampleFormControlTextarea1"></textarea>
+            <button type="submit" id="send" class="btn send-b btn-dark col-2">
+                <i class="ion ion-paper-airplane"></i>
+            </button>
         </div>
-    </div> <!-- end container -->
+    </div>
+</div>
+</div> <!-- end container -->
 
 <img id="map" width="220" height="277" src="{{asset('images/map.png')}}" alt="The Scream" style="display: none;">
 <img id="nazi_flag" width="20" height="20" src="{{asset('images/nazi_flag.jpeg')}}" alt="The Scream" style="display: none;">
+<img id="soviet_flag" width="20" height="20" src="{{asset('images/ussr.jpg')}}" alt="The Scream" style="display: none;">
 <audio id="audio" src="{{asset('images/gun.mp3')}}" controls style="display: none;"></audio>
-<canvas id="orthogonal-map" class="canvas-map" width="2000" height="2000"></canvas>
+<canvas id="orthogonal-map" class="canvas-map" width="1400" height="1450"></canvas>
 
 {{--es unda amovshalot mere--}}
 <script src="{{asset('js/jquery.min.js')}}"></script>
@@ -83,16 +86,18 @@
         2: {name: 'Land', color: 'red' },
         3: {name: 'Reaver', color: 'lightblue' },
         0: {name: 'Land', color: '#D3D3D3' },
+        4: {name: 'shtabi1', color:'yellow'},
+        5: {name: 'shtabi2', color:'yellow'},
     };
 
     //pixel size
     const sizeOfDiv = 20;
 
     // Map tile data
-    const countryID = {{ \Illuminate\Support\Facades\Auth::user()->country_id }}
-    var mapData = {{ json_encode($coord) }};
+    const countryID = {{ \Illuminate\Support\Facades\Auth::user()->country_id }};
+    let mapData = {{ json_encode($coord) }};
 
-    var elem = document.getElementById('orthogonal-map'),
+    let elem = document.getElementById('orthogonal-map'),
         elemLeft = elem.offsetLeft,
         elemTop = elem.offsetTop,
         ctx = elem.getContext('2d');
@@ -198,7 +203,9 @@
 
     document.addEventListener('DOMContentLoaded', function () {
         map = new OrthogonalMap('orthogonal-map', mapData, { tileSize: sizeOfDiv });
-        drawInitialLine(ctx);
+        ctx.fillStyle = '#00004d';
+        ctx.fillRect(140, 160, this.size, this.size);
+        // drawInitialLine(ctx);
     });
 
     setInterval(function () {
@@ -208,11 +215,14 @@
             data: { map: JSON.stringify(mapData) },
             dataType: "json",
             success:function(data){
+                console.log(data);
                 map = new OrthogonalMap('orthogonal-map', data, { tileSize: sizeOfDiv });
-                drawInitialLine(ctx);
+                let img = document.getElementById("map");
+                ctx.drawImage(img, 0, 0, 1400, 1440);
+                // drawInitialLine(ctx);
             }
         });
-    },1000*300);
+    },3000);
 
     /**
      Tile class
@@ -239,7 +249,6 @@
                     let pixel = mapData[item.y / sizeOfDiv][item.x / sizeOfDiv];
                     checkPixels(item.y / sizeOfDiv, item.x / sizeOfDiv, pixel, countryID, mapData, ctx,item);
 
-                    drawInitialLine(ctx);
                     return 0;
                 }
             }
@@ -247,7 +256,7 @@
     }, false);
 
     function checkPixels(x, y, currentPixel, countryId, map,ctx,item){
-        if(currentPixel!==0 && currentPixel!==3 && currentPixel!==countryId){
+        if(currentPixel!==0 && currentPixel!==3 && currentPixel!==countryId && ((currentPixel!==5 && countryId!==1) || (currentPixel!==4 && countryId!==2))){
             if( map[x-1][y]===countryId ||
                 map[x+1][y]===countryId ||
                 map[x][y-1]===countryId ||
@@ -257,37 +266,38 @@
                 map[x+1][y-1]===countryId ||
                 map[x+1][y+1]===countryId){
                 if(sessionStorage.getItem('wait')==null || sessionStorage.getItem('wait')<1000) {
-                    sessionStorage.setItem('wait', (1000 * 5));
+                    sessionStorage.setItem('wait', (1000 * 1));
                     mapData[x][y] = countryId;
-                    //image upload
-                    let img = document.getElementById("nazi_flag");
-                    ctx.drawImage(img, item.x, item.y, 20, 20);
+
+                    // image upload
+                    if(countryId == 1) {
+                        let img = document.getElementById("nazi_flag");
+                        ctx.drawImage(img, item.x, item.y, 20, 20);
+                    }else if(countryId == 2){
+                        let img = document.getElementById("soviet_flag");
+                        ctx.drawImage(img, item.x, item.y, 20, 20);
+                    }
 
                     let audioMusic = document.getElementById('audio').src;
                     let audio = new Audio(audioMusic);
                     audio.play();
-                    //hide
-                    setTimeout(function(){
-                        colored(ctx, item);
-                    },3000);
-
                     axios(countryId,x,y);
                 }
                 else{
-                    alert('you time is '+sessionStorage.getItem('wait')/1000)
+                    toastr["warning"]("Warning!", "You Have Left "+sessionStorage.getItem('wait')/1000+" Second!");
                 }
             }else{
-                alert('araavs sazgvari');
+                toastr["warning"]("Warning!", "You Have Not Border With This Area!");
             }
         }else{
-            alert('zgvaaa an neitrali')
+            toastr["warning"]("Warning!", "You Can Not Access Your Teritory, Neutral And River!");
         }
     }
 
     function colored(ctx, item){
         // ctx.clearRect(item.x, item.y, sizeOfDiv, sizeOfDiv);
         ctx.globalAlpha=0.3;
-        ctx.fillStyle =TILE_TYPES[countryID].color;
+        ctx.fillStyle = TILE_TYPES[countryID].color;
         ctx.fillRect(item.x, item.y, sizeOfDiv, sizeOfDiv);
     }
 
@@ -296,7 +306,15 @@
             type: "POST",
             url: "/update_map",
             data: {countryID: countryID,x:x,y:y},
-            dataType: "json"
+            dataType: "json",
+            success:function(data){
+                if(data[0] == 'win'){
+                    victory();
+                }
+                if(data[0] == 'lose'){
+                    lose();
+                }
+            }
         });
     }
 
@@ -310,7 +328,7 @@
                 if (mapData[i - 1][j] != mapData[i][j]) {
                     ctx.beginPath();
                     ctx.strokeStyle = color;
-                    ctx.lineWidth = 10;
+                    ctx.lineWidth = 3;
                     ctx.moveTo(j * sizeOfDiv, i * sizeOfDiv);
                     ctx.lineTo(j * sizeOfDiv + sizeOfDiv, i * sizeOfDiv);
                     ctx.stroke();
@@ -318,7 +336,7 @@
                 if (mapData[i][j + 1] != mapData[i][j]) {
                     ctx.beginPath();
                     ctx.strokeStyle = color;
-                    ctx.lineWidth = 10;
+                    ctx.lineWidth = 3;
                     ctx.moveTo(j * sizeOfDiv + sizeOfDiv, i * sizeOfDiv);
                     ctx.lineTo(j * sizeOfDiv + sizeOfDiv, i * sizeOfDiv + sizeOfDiv);
                     ctx.stroke();
@@ -335,6 +353,8 @@
     }, 1000);
 
 </script>
+
+<script src="{{asset('js/chat.js')}}"></script>
 
  <div class="victory">
         <audio >

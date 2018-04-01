@@ -119,3 +119,33 @@ body {
     line-height: 50px;
     font-size: 22px;
 }
+
+
+
+.victory{
+    display: none;
+    background: url('/images/victory.svg');
+    width: 400px;
+    height: 350px;
+    background-position: center !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    position:  absolute;
+    left: 50%;
+    top:  50%;
+    transform: translate(-50%, -50%);
+}
+
+.lose{
+    display: none;
+    background: url('/images/lose.png');
+    width: 400px;
+    height: 350px;
+    background-position: center !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    position:  absolute;
+    left: 50%;
+    top:  50%;
+    transform: translate(-50%, -50%);
+}

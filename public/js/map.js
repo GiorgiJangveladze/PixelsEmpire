@@ -4,7 +4,9 @@ function victory(){
 
   win_sound.play(); 
   $(".victory").show(850);
-
+  setInterval(function(){
+      window.location.href = '/home';
+  }, 2000);
 }
 
 
@@ -13,6 +15,9 @@ function lose(){
   
   lose_sound.play(); 
   $(".lose").show(850);
+    setInterval(function(){
+        window.location.href = '/home';
+    }, 2000);
 
 }
 

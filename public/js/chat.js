@@ -15,20 +15,21 @@ function close_sidebar() {
 }
 
 
-	var button = $('#send');
-	button.click(function()
-	{
-		var mess = $("#message").val();
+	$(document).on('click','#send', function(e) {
+        e.preventDefault();
+        event.stopPropagation();
+        var mess = $("#message").val();
 		$.ajax({
 			type:'POST',
             url:'/game/message',
             dataType:'json',
             data:{mess:mess},
-            complete:function()
+            success:function()
             {
             	$("#message").val(""); 
             }
 		});
+		return false;
 	});
 	window.setInterval(function()
 	{
