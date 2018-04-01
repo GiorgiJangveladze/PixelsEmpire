@@ -2,6 +2,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="{{asset('css/chat.css')}}"/>
+    <link rel="stylesheet" href="{{asset('css/style.css')}}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
     <div class="o-m">
         <i class="ion ion-android-textsms" id="jsf"></i>
     </div>
@@ -333,5 +335,18 @@
     }, 1000);
 
 </script>
+
+ <div class="victory">
+        <audio >
+            <source src="{{asset('audio/win.mp3')}}" type="audio/mpeg">
+        </audio>
+    </div>
+    <div class="lose">
+        <audio >
+            <source src="{{asset('audio/lose.wav')}}" type="audio/wav">
+        </audio>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="{{asset('js/map.js')}}"></script>
 
 <script src="{{asset('js/chat.js')}}"></script>
